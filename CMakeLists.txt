@@ -23,5 +23,5 @@ include(TableGen)
 include(AddLLVM)
 include(AddMLIR)
 
-add_subdirectory(lib/Transform/Affine)
+add_subdirectory(lib/Transform)
 add_subdirectory(tools)
