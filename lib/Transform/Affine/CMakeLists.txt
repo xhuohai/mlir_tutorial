@@ -1,1 +1,2 @@
 add_mlir_library(AffineFullUnroll AffineFullUnroll.cpp)
+target_link_libraries(AffineFullUnroll PUBLIC MLIRAffineUtils)

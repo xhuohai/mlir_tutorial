@@ -17,7 +17,7 @@
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/release",
                 "CMAKE_C_COMPILER": "gcc-10",
                 "CMAKE_CXX_COMPILER": "g++-10",
-                "MLIR_DIR": "llvm-project/llvm/install/release/lib/cmake",
+                "MLIR_DIR": "${sourceDir}/llvm-project/llvm/install/release/lib/cmake/mlir",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
             }
         }
