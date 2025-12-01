@@ -1,0 +1,32 @@
+{
+    "version": 3,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 20,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "release-ninja-default",
+            "displayName": "Release Build with Ninja",
+            "description": "Builds Clang, LLD, and LLDB in Release mode using Ninja.",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/release",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/release",
+                "CMAKE_C_COMPILER": "gcc-10",
+                "CMAKE_CXX_COMPILER": "g++-10",
+                "MLIR_DIR": "llvm-project/llvm/install/release/lib/cmake",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "release-ninja-default",
+            "configurePreset": "release-ninja-default",
+            "description": "Build the Release configuration."
+        }
+    ]
+}
