@@ -4,3 +4,4 @@ build
 tests/Output
 .lit*
 compile_commands.json
+install

@@ -15,8 +15,8 @@
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/release",
-                "CMAKE_C_COMPILER": "gcc-10",
-                "CMAKE_CXX_COMPILER": "g++-10",
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++",
                 "MLIR_DIR": "${sourceDir}/llvm-project/llvm/install/release/lib/cmake/mlir",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
             }
