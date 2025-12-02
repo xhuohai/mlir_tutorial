@@ -33,9 +33,10 @@ struct PowerOfTwoExpand : public OpRewritePattern<MulIOp> {
       return failure();
     }
 
-    auto newConst = rewriter.create<ConstantOp>(
-        rhsDefiningOp->getLoc(),
-        rewriter.getIntegerAttr(rhs.getType(), value / 2));
+    auto newConst = rewriter.create<arith::ShRSIOp>(
+        rhs.getLoc(), rhs,
+        rewriter.create<ConstantOp>(rhsDefiningOp->getLoc(),
+                                    rewriter.getIntegerAttr(rhs.getType(), 1)));
     auto newMul = rewriter.create<arith::MulIOp>(op->getLoc(), lhs, newConst);
     auto newAdd = rewriter.create<AddIOp>(op->getLoc(), newMul, newMul);
     rewriter.replaceOp(op, {newAdd});
