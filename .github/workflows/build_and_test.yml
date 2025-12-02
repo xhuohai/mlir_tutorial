@@ -51,7 +51,7 @@ jobs:
         run: |
           pip install cmake lit
           mkdir build && cd build
-          cmake .. -DMLIR_DIR=../llvm-project/llvm/install/release/lib/cmake/mlir -DCMAKE_CXX_FLAGS="-fno-rtti" -DCMAKE_INSTALL_PREFIX=../install/release
+          cmake .. -DMLIR_DIR=${{ env.LLVM_INSTALL_PATH }}/lib/cmake/mlir -DCMAKE_CXX_FLAGS="-fno-rtti" -DCMAKE_INSTALL_PREFIX=../install/release
           cmake --build .
           cmake --install
           cd ..
