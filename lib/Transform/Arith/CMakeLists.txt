@@ -1,6 +1,7 @@
 
 set(LLVM_TARGET_DEFINITIONS Passes.td)
 mlir_tablegen(ArithPasses.h.inc -gen-pass-decls -name=Arith)
+mlir_tablegen(ArithPasses.md -gen-pass-doc)
 add_public_tablegen_target(MLIRArithTransformsIncGen)
 # add_custom_target(header DEPENDS MLIRArithTransformsIncGen)
 
