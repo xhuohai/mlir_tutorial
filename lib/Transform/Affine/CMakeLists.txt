@@ -1,2 +1,8 @@
-add_mlir_library(AffineFullUnroll AffineFullUnroll.cpp)
+set(LLVM_TARGET_DEFINITIONS Passes.td)
+mlir_tablegen(Passes.h.inc -gen-pass-decls)
+add_public_tablegen_target(MLIRAffineTransformsIncGen)
+add_custom_target(header DEPENDS MLIRAffineTransformsIncGen)
+
+add_mlir_library(AffineFullUnroll AffineFullUnroll.cpp AffineFullUnrollPatternRewrite.cpp)
 target_link_libraries(AffineFullUnroll PUBLIC MLIRAffineUtils)
+target_include_directories(AffineFullUnroll PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
