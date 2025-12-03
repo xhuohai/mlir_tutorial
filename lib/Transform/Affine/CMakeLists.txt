@@ -1,5 +1,5 @@
 set(LLVM_TARGET_DEFINITIONS Passes.td)
-mlir_tablegen(Passes.h.inc -gen-pass-decls)
+mlir_tablegen(AffinePasses.h.inc -gen-pass-decls -name=Affine)
 add_public_tablegen_target(MLIRAffineTransformsIncGen)
 add_custom_target(header DEPENDS MLIRAffineTransformsIncGen)
 

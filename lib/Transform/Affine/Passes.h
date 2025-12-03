@@ -8,7 +8,7 @@ namespace mlir {
 namespace tutorial {
 
 #define GEN_PASS_REGISTRATION
-#include "Passes.h.inc"
+#include "AffinePasses.h.inc"
 
 }  // namespace tutorial
 }  // namespace mlir

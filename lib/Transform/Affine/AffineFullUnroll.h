@@ -7,7 +7,7 @@ namespace mlir {
 namespace tutorial {
 
 #define GEN_PASS_DECL_AFFINEFULLUNROLL
-#include "Passes.h.inc"
+#include "AffinePasses.h.inc"
 
 }  // namespace tutorial
 }  // namespace mlir

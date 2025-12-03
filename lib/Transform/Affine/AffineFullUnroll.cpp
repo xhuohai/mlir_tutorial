@@ -7,7 +7,7 @@ namespace mlir {
 namespace tutorial {
 
 #define GEN_PASS_DEF_AFFINEFULLUNROLL
-#include "Passes.h.inc"
+#include "AffinePasses.h.inc"
 
 using mlir::affine::AffineForOp;
 using mlir::affine::loopUnrollFull;

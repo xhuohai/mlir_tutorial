@@ -1,5 +1,5 @@
 #include "../lib/Transform/Affine/Passes.h"
-#include "../lib/Transform/Arith/MulToAdd.h"
+#include "../lib/Transform/Arith/Passes.h"
 #include "mlir/InitAllDialects.h"
 #include "mlir/Pass/PassRegistry.h"
 #include "mlir/Tools/mlir-opt/MlirOptMain.h"
@@ -8,8 +8,8 @@ int main(int argc, char **argv) {
     mlir::DialectRegistry registry;
     registry.insert<mlir::func::FuncDialect, mlir::affine::AffineDialect>();
 
-    mlir::tutorial::registerPasses();
-    mlir::PassRegistration<mlir::tutorial::MulToAddPass>();
+    mlir::tutorial::registerArithPasses();
+    mlir::tutorial::registerAffinePasses();
 
     return mlir::asMainReturnCode(
         mlir::MlirOptMain(argc, argv, "Tutorial Pass Driver", registry));
