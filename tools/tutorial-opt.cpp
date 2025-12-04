@@ -1,7 +1,6 @@
 #include "../lib/Transform/Affine/Passes.h"
 #include "../lib/Transform/Arith/Passes.h"
 #include "../lib/Dialect/Poly/PolyDialect.h"
-#include "mlir/Dialect/Affine/Passes.h"
 #include "mlir/Dialect/SCF/IR/SCF.h"
 #include "mlir/InitAllDialects.h"
 #include "mlir/InitAllPasses.h"
@@ -15,7 +14,8 @@ int main(int argc, char **argv) {
     registry.insert<mlir::func::FuncDialect, mlir::affine::AffineDialect, mlir::scf::SCFDialect,
                     mlir::tutorial::poly::PolyDialect>();
 
-    mlir::affine::registerAffinePasses();
+    mlir::registerCSEPass();
+    mlir::registerLoopInvariantCodeMotionPass();
     mlir::registerControlFlowSinkPass();
     mlir::tutorial::registerArithPasses();
     mlir::tutorial::registerAffinePasses();
