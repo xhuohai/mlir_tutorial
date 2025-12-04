@@ -4,6 +4,8 @@
 include "PolyDialect.td"
 include "PolyTypes.td"
 include "mlir/Interfaces/SideEffectInterfaces.td"
+include "mlir/IR/BuiltinAttributes.td"
+include "mlir/IR/OpBase.td"
 
 // Type constraint for poly binop arguments: polys, vectors of polys, or
 // tensors of polys.
@@ -13,6 +15,7 @@ class PolyBinOp<string mnemonic> : Op<PolyDialect, mnemonic, [Pure, ElementwiseM
   let arguments = (ins PolyOrContainer:$lhs, PolyOrContainer:$rhs);
   let results = (outs PolyOrContainer:$output);
   let assemblyFormat = "$lhs `,` $rhs attr-dict `:` `(` type($lhs) `,` type($rhs) `)` `->` type($output)";
+  let hasFolder = 1;
 }
 
 def PolyAddOp : PolyBinOp<"add"> {
@@ -32,6 +35,7 @@ def PolyFromTensorOp : Op<PolyDialect, "from_tensor", [Pure]> {
   let arguments = (ins TensorOf<[AnyInteger]>:$input);
   let results = (outs Polynomial:$output);
   let assemblyFormat = "$input attr-dict `:` type($input) `->` type($output)";
+  let hasFolder = 1;
 }
 
 def PolyEvalOp : Op<PolyDialect, "eval"> {
@@ -39,6 +43,14 @@ def PolyEvalOp : Op<PolyDialect, "eval"> {
   let arguments = (ins Polynomial:$input, AnyInteger:$point);
   let results = (outs AnyInteger:$output);
   let assemblyFormat = "$input `,` $point attr-dict `:` `(` type($input) `,` type($point) `)` `->` type($output)";
+}
+
+def PolyConstantOp : Op<PolyDialect, "constant", [Pure, ConstantLike]> {
+  let summary = "Define a constant polynomial via an attribute.";
+  let arguments = (ins AnyIntElementsAttr:$coefficients);
+  let results = (outs Polynomial:$output);
+  let assemblyFormat = "$coefficients attr-dict `:` type($output)";
+  let hasFolder = 1;
 }
 
 #endif  // LIB_DIALECT_POLY_POLYOPS_TD_

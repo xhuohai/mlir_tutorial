@@ -16,6 +16,8 @@ int main(int argc, char **argv) {
                   mlir::scf::SCFDialect, mlir::tensor::TensorDialect,
                   mlir::tutorial::poly::PolyDialect>();
 
+  mlir::registerCanonicalizerPass();
+  mlir::registerSCCPPass();
   mlir::registerCSEPass();
   mlir::registerLoopInvariantCodeMotionPass();
   mlir::registerControlFlowSinkPass();
