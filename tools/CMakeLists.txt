@@ -10,6 +10,7 @@ target_link_libraries(tutorial-opt PRIVATE
   MLIROptLib
   MLIRFuncDialect
   MLIRAffineDialect
+  PolyDialect
 )
 
 install(TARGETS tutorial-opt DESTINATION bin)

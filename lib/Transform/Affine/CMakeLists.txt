@@ -1,7 +1,7 @@
 set(LLVM_TARGET_DEFINITIONS Passes.td)
 mlir_tablegen(AffinePasses.h.inc -gen-pass-decls -name=Affine)
 add_public_tablegen_target(MLIRAffineTransformsIncGen)
-add_custom_target(header DEPENDS MLIRAffineTransformsIncGen)
+# add_custom_target(header DEPENDS MLIRAffineTransformsIncGen)
 
 add_mlir_library(AffineFullUnroll AffineFullUnroll.cpp AffineFullUnrollPatternRewrite.cpp)
 target_link_libraries(AffineFullUnroll PUBLIC MLIRAffineUtils)
