@@ -9,7 +9,8 @@ target_link_libraries(tutorial-opt PRIVATE
   MLIRParser
   MLIROptLib
   MLIRFuncDialect
-  MLIRAffineDialect
+  MLIRPass
+  MLIRAffineTransforms
   PolyDialect
 )
 
