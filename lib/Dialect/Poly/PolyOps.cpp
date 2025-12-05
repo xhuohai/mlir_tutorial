@@ -11,21 +11,21 @@ namespace mlir {
 namespace tutorial {
 namespace poly {
 
-OpFoldResult PolyConstantOp::fold(PolyConstantOp::FoldAdaptor adaptor) {
+OpFoldResult ConstantOp::fold(ConstantOp::FoldAdaptor adaptor) {
   return adaptor.getCoefficients();
 }
 
-OpFoldResult PolyAddOp::fold(PolyAddOp::FoldAdaptor adaptor) {
+OpFoldResult AddOp::fold(AddOp::FoldAdaptor adaptor) {
   return constFoldBinaryOp<IntegerAttr, APInt>(
       adaptor.getOperands(), [&](APInt a, APInt b) { return a + b; });
 }
 
-OpFoldResult PolySubOp::fold(PolySubOp::FoldAdaptor adaptor) {
+OpFoldResult SubOp::fold(SubOp::FoldAdaptor adaptor) {
   return constFoldBinaryOp<IntegerAttr, APInt>(
       adaptor.getOperands(), [&](APInt a, APInt b) { return a - b; });
 }
 
-OpFoldResult PolyMulOp::fold(PolyMulOp::FoldAdaptor adaptor) {
+OpFoldResult MulOp::fold(MulOp::FoldAdaptor adaptor) {
   auto lhs = dyn_cast_or_null<DenseIntElementsAttr>(adaptor.getOperands()[0]);
   auto rhs = dyn_cast_or_null<DenseIntElementsAttr>(adaptor.getOperands()[1]);
 
@@ -61,12 +61,12 @@ OpFoldResult PolyMulOp::fold(PolyMulOp::FoldAdaptor adaptor) {
       result);
 }
 
-OpFoldResult PolyFromTensorOp::fold(PolyFromTensorOp::FoldAdaptor adaptor) {
+OpFoldResult FromTensorOp::fold(FromTensorOp::FoldAdaptor adaptor) {
   // Returns null if the cast failed, which corresponds to a failed fold.
   return dyn_cast_or_null<DenseIntElementsAttr>(adaptor.getInput());
 }
 
-LogicalResult PolyEvalOp::verify() {
+LogicalResult EvalOp::verify() {
   auto pointTy = getPoint().getType();
   bool isSignlessInteger = pointTy.isSignlessInteger(32);
   auto complexPt = llvm::dyn_cast<ComplexType>(pointTy);
@@ -77,11 +77,11 @@ LogicalResult PolyEvalOp::verify() {
 }
 
 // Rewrites (x^2 - y^2) as (x+y)(x-y) if x^2 and y^2 have no other uses.
-struct DifferenceOfSquaresOld : public OpRewritePattern<PolySubOp> {
+struct DifferenceOfSquaresOld : public OpRewritePattern<SubOp> {
   DifferenceOfSquaresOld(mlir::MLIRContext *context)
-      : OpRewritePattern<PolySubOp>(context, /*benefit=*/1) {}
+      : OpRewritePattern<SubOp>(context, /*benefit=*/1) {}
 
-  LogicalResult matchAndRewrite(PolySubOp op,
+  LogicalResult matchAndRewrite(SubOp op,
                                 PatternRewriter &rewriter) const override {
     Value lhs = op.getOperand(0);
     Value rhs = op.getOperand(1);
@@ -92,8 +92,8 @@ struct DifferenceOfSquaresOld : public OpRewritePattern<PolySubOp> {
       return failure();
     }
 
-    auto rhsMul = rhs.getDefiningOp<PolyMulOp>();
-    auto lhsMul = lhs.getDefiningOp<PolyMulOp>();
+    auto rhsMul = rhs.getDefiningOp<MulOp>();
+    auto lhsMul = lhs.getDefiningOp<MulOp>();
     if (!rhsMul || !lhsMul) {
       return failure();
     }
@@ -108,9 +108,9 @@ struct DifferenceOfSquaresOld : public OpRewritePattern<PolySubOp> {
     auto x = lhsMul.getLhs();
     auto y = rhsMul.getLhs();
 
-    PolyAddOp newAdd = rewriter.create<PolyAddOp>(op.getLoc(), x, y);
-    PolySubOp newSub = rewriter.create<PolySubOp>(op.getLoc(), x, y);
-    PolyMulOp newMul = rewriter.create<PolyMulOp>(op.getLoc(), newAdd, newSub);
+    AddOp newAdd = rewriter.create<AddOp>(op.getLoc(), x, y);
+    SubOp newSub = rewriter.create<SubOp>(op.getLoc(), x, y);
+    MulOp newMul = rewriter.create<MulOp>(op.getLoc(), newAdd, newSub);
 
     rewriter.replaceOp(op, {newMul});
     // We don't need to remove the original ops because MLIR already has
@@ -120,18 +120,18 @@ struct DifferenceOfSquaresOld : public OpRewritePattern<PolySubOp> {
   }
 };
 
-void PolyAddOp::getCanonicalizationPatterns(::mlir::RewritePatternSet &results,
+void AddOp::getCanonicalizationPatterns(::mlir::RewritePatternSet &results,
                                             ::mlir::MLIRContext *context) {}
 
-void PolySubOp::getCanonicalizationPatterns(::mlir::RewritePatternSet &results,
+void SubOp::getCanonicalizationPatterns(::mlir::RewritePatternSet &results,
                                             ::mlir::MLIRContext *context) {
   results.add<DifferenceOfSquares>(context);
 }
 
-void PolyMulOp::getCanonicalizationPatterns(::mlir::RewritePatternSet &results,
+void MulOp::getCanonicalizationPatterns(::mlir::RewritePatternSet &results,
                                             ::mlir::MLIRContext *context) {}
 
-void PolyEvalOp::getCanonicalizationPatterns(::mlir::RewritePatternSet &results,
+void EvalOp::getCanonicalizationPatterns(::mlir::RewritePatternSet &results,
                                              ::mlir::MLIRContext *context) {
   results.add<LiftConjThroughEval>(context);
 }

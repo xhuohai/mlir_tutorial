@@ -3,7 +3,7 @@
 
 include "mlir/IR/DialectBase.td"
 
-def PolyDialect : Dialect {
+def Poly_Dialect : Dialect {
   let name = "poly";
   let summary = "A dialect for polynomial math";
   let description = [{

@@ -31,7 +31,7 @@ Operation *PolyDialect::materializeConstant(OpBuilder &builder, Attribute value,
   auto coeffs = dyn_cast<DenseIntElementsAttr>(value);
   if (!coeffs)
     return nullptr;
-  return builder.create<PolyConstantOp>(loc, type, coeffs);
+  return builder.create<ConstantOp>(loc, type, coeffs);
 }
 
 } // namespace poly

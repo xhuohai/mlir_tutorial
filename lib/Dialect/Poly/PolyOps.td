@@ -10,34 +10,34 @@ include "mlir/IR/OpBase.td"
 
 // Type constraint for poly binop arguments: polys, vectors of polys, or
 // tensors of polys.
-def PolyOrContainer : TypeOrContainer<Polynomial, "poly-or-container">;
+def Poly_OrContainer : TypeOrContainer<Polynomial, "poly-or-container">;
 
 // Inject verification that all integer-like arguments are 32-bits
 def Has32BitArguments : NativeOpTrait<"Has32BitArguments"> {
   let cppNamespace = "::mlir::tutorial::poly";
 }
 
-class PolyBinOp<string mnemonic> : Op<PolyDialect, mnemonic, [Pure, ElementwiseMappable, SameOperandsAndResultType]> {
-  let arguments = (ins PolyOrContainer:$lhs, PolyOrContainer:$rhs);
-  let results = (outs PolyOrContainer:$output);
+class Poly_BinOp<string mnemonic> : Op<Poly_Dialect, mnemonic, [Pure, ElementwiseMappable, SameOperandsAndResultType]> {
+  let arguments = (ins Poly_OrContainer:$lhs, Poly_OrContainer:$rhs);
+  let results = (outs Poly_OrContainer:$output);
   let assemblyFormat = "$lhs `,` $rhs attr-dict `:` qualified(type($output))";
   let hasFolder = 1;
   let hasCanonicalizer = 1;
 }
 
-def PolyAddOp : PolyBinOp<"add"> {
+def Poly_AddOp : Poly_BinOp<"add"> {
   let summary = "Addition operation between polynomials.";
 }
 
-def PolySubOp : PolyBinOp<"sub"> {
+def Poly_SubOp : Poly_BinOp<"sub"> {
   let summary = "Subtraction operation between polynomials.";
 }
 
-def PolyMulOp : PolyBinOp<"mul"> {
+def Poly_MulOp : Poly_BinOp<"mul"> {
   let summary = "Multiplication operation between polynomials.";
 }
 
-def PolyFromTensorOp : Op<PolyDialect, "from_tensor", [Pure]> {
+def Poly_FromTensorOp : Op<Poly_Dialect, "from_tensor", [Pure]> {
   let summary = "Creates a Polynomial from integer coefficients stored in a tensor.";
   let arguments = (ins TensorOf<[AnyInteger]>:$input);
   let results = (outs Polynomial:$output);
@@ -47,7 +47,7 @@ def PolyFromTensorOp : Op<PolyDialect, "from_tensor", [Pure]> {
 
 def IntOrComplex : AnyTypeOf<[AnyInteger, AnyComplex]>;
 
-def PolyEvalOp : Op<PolyDialect, "eval", [AllTypesMatch<["point", "output"]>]> {
+def Poly_EvalOp : Op<Poly_Dialect, "eval", [AllTypesMatch<["point", "output"]>]> {
   let summary = "Evaluates a Polynomial at a given input value.";
   let arguments = (ins Polynomial:$input, IntOrComplex:$point);
   let results = (outs IntOrComplex:$output);
@@ -56,7 +56,7 @@ def PolyEvalOp : Op<PolyDialect, "eval", [AllTypesMatch<["point", "output"]>]> {
   let hasCanonicalizer = 1;
 }
 
-def PolyConstantOp : Op<PolyDialect, "constant", [Pure, ConstantLike]> {
+def Poly_ConstantOp : Op<Poly_Dialect, "constant", [Pure, ConstantLike]> {
   let summary = "Define a constant polynomial via an attribute.";
   let arguments = (ins AnyIntElementsAttr:$coefficients);
   let results = (outs Polynomial:$output);

@@ -6,19 +6,19 @@ include "mlir/Dialect/Complex/IR/ComplexOps.td"
 include "mlir/IR/PatternBase.td"
 
 def LiftConjThroughEval : Pat<
-  (PolyEvalOp $f, (ConjOp $z)),
-  (ConjOp (PolyEvalOp $f, $z))
+  (Poly_EvalOp $f, (ConjOp $z)),
+  (ConjOp (Poly_EvalOp $f, $z))
 >;
 
 def HasOneUse: Constraint<CPred<"$_self.hasOneUse()">, "has one use">;
 
 // Rewrites (x^2 - y^2) as (x+y)(x-y) if x^2 and y^2 have no other uses.
 def DifferenceOfSquares : Pattern<
-  (PolySubOp (PolyMulOp:$lhs $x, $x), (PolyMulOp:$rhs $y, $y)),
+  (Poly_SubOp (Poly_MulOp:$lhs $x, $x), (Poly_MulOp:$rhs $y, $y)),
   [
-    (PolyAddOp:$sum $x, $y),
-    (PolySubOp:$diff $x, $y),
-    (PolyMulOp:$res $sum, $diff),
+    (Poly_AddOp:$sum $x, $y),
+    (Poly_SubOp:$diff $x, $y),
+    (Poly_MulOp:$res $sum, $diff),
   ],
   [(HasOneUse:$lhs), (HasOneUse:$rhs)]
 >;
