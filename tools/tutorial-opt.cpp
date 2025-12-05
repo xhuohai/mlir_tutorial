@@ -14,6 +14,7 @@ int main(int argc, char **argv) {
   mlir::DialectRegistry registry;
   registry.insert<mlir::func::FuncDialect, mlir::affine::AffineDialect,
                   mlir::scf::SCFDialect, mlir::tensor::TensorDialect,
+                  mlir::complex::ComplexDialect,
                   mlir::tutorial::poly::PolyDialect>();
 
   mlir::registerCanonicalizerPass();
