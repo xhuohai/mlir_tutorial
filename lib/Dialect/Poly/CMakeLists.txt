@@ -17,5 +17,5 @@ add_public_tablegen_target(MLIRPolyDialectIncGen)
 # add_custom_target(header DEPENDS MLIRPolyDialectIncGen)
 
 add_mlir_library(PolyDialect PolyDialect.cpp PolyOps.cpp)
-target_include_directories(PolyDialect PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+target_include_directories(PolyDialect PUBLIC ${CMAKE_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/../../../)
 target_link_libraries(PolyDialect PUBLIC MLIRRewrite)

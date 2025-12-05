@@ -5,7 +5,7 @@
 #include "mlir/Support/LLVM.h"
 
 // Required after PatternMatch.h
-#include "PolyCanonicalize.cpp.inc"
+#include "lib/Dialect/Poly/PolyCanonicalize.cpp.inc"
 
 namespace mlir {
 namespace tutorial {

@@ -1,6 +1,7 @@
-#include "../lib/Dialect/Poly/PolyDialect.h"
+#include "lib/Dialect/Poly/PolyDialect.h"
 #include "../lib/Transform/Affine/Passes.h"
 #include "../lib/Transform/Arith/Passes.h"
+#include "lib/Conversion/PolyToStandard/PolyToStandard.h"
 #include "mlir/Dialect/SCF/IR/SCF.h"
 #include "mlir/Dialect/Tensor/IR/Tensor.h"
 #include "mlir/InitAllDialects.h"
@@ -24,6 +25,8 @@ int main(int argc, char **argv) {
   mlir::registerControlFlowSinkPass();
   mlir::tutorial::registerArithPasses();
   mlir::tutorial::registerAffinePasses();
+
+  mlir::tutorial::poly::registerPolyToStandardPass();
 
   return mlir::asMainReturnCode(
       mlir::MlirOptMain(argc, argv, "Tutorial Pass Driver", registry));

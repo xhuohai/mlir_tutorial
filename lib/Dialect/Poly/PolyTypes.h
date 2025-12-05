@@ -6,6 +6,6 @@
 #include "mlir/IR/DialectImplementation.h"
 
 #define GET_TYPEDEF_CLASSES
-#include "PolyTypes.h.inc"
+#include "lib/Dialect/Poly/PolyTypes.h.inc"
 
 #endif  // LIB_TYPES_POLY_POLYTYPES_H_

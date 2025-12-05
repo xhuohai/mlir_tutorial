@@ -24,5 +24,6 @@ include(AddLLVM)
 include(AddMLIR)
 
 add_subdirectory(lib/Dialect/Poly)
+add_subdirectory(lib/Conversion/PolyToStandard)
 add_subdirectory(lib/Transform)
 add_subdirectory(tools)

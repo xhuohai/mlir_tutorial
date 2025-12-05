@@ -9,9 +9,12 @@ target_link_libraries(tutorial-opt PRIVATE
   MLIRParser
   MLIROptLib
   MLIRFuncDialect
+  MLIRFuncTransforms
   MLIRPass
   MLIRTransforms
+  MLIRTransformUtils
   PolyDialect
+  PolyToStandard
 )
 
 install(TARGETS tutorial-opt DESTINATION bin)
