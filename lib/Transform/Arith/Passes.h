@@ -2,6 +2,7 @@
 #define LIB_TRANSFORM_ARITH_PASSES_H_
 
 #include "MulToAdd.h"
+#include "MulToAddPdll.h"
 
 namespace mlir {
 namespace tutorial {
