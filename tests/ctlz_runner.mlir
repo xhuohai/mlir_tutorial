@@ -1,6 +1,6 @@
 // RUN: mlir-opt %s \
 // RUN:   -pass-pipeline="builtin.module( \
-// RUN:      convert-math-to-funcs{convert-ctlz}, \
+// RUN:      func.func(convert-math-to-llvm, convert-scf-to-cf, convert-arith-to-llvm), \
 // RUN:      func.func(convert-scf-to-cf,convert-arith-to-llvm), \
 // RUN:      convert-func-to-llvm, \
 // RUN:      convert-cf-to-llvm, \
@@ -17,7 +17,7 @@ func.func @test_7i32_to_29() -> i32 {
 
 // RUN: mlir-opt %s \
 // RUN:   -pass-pipeline="builtin.module( \
-// RUN:      convert-math-to-funcs{convert-ctlz}, \
+// RUN:      func.func(convert-math-to-llvm, convert-scf-to-cf, convert-arith-to-llvm), \
 // RUN:      func.func(convert-scf-to-cf,convert-arith-to-llvm), \
 // RUN:      convert-func-to-llvm, \
 // RUN:      convert-cf-to-llvm, \
