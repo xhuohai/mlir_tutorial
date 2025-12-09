@@ -5,3 +5,6 @@ tests/Output
 .lit*
 compile_commands.json
 llvm-install
+*.out
+*.o
+tests/**.o

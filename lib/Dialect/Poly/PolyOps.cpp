@@ -16,12 +16,12 @@ OpFoldResult ConstantOp::fold(ConstantOp::FoldAdaptor adaptor) {
 }
 
 OpFoldResult AddOp::fold(AddOp::FoldAdaptor adaptor) {
-  return constFoldBinaryOp<IntegerAttr, APInt>(
+  return constFoldBinaryOp<IntegerAttr, APInt, void>(
       adaptor.getOperands(), [&](APInt a, APInt b) { return a + b; });
 }
 
 OpFoldResult SubOp::fold(SubOp::FoldAdaptor adaptor) {
-  return constFoldBinaryOp<IntegerAttr, APInt>(
+  return constFoldBinaryOp<IntegerAttr, APInt, void>(
       adaptor.getOperands(), [&](APInt a, APInt b) { return a - b; });
 }
 
@@ -112,7 +112,7 @@ struct DifferenceOfSquaresOld : public OpRewritePattern<SubOp> {
     SubOp newSub = rewriter.create<SubOp>(op.getLoc(), x, y);
     MulOp newMul = rewriter.create<MulOp>(op.getLoc(), newAdd, newSub);
 
-    rewriter.replaceOp(op, {newMul});
+    rewriter.replaceOp(op, newMul);
     // We don't need to remove the original ops because MLIR already has
     // canonicalization patterns that remove unused ops.
 

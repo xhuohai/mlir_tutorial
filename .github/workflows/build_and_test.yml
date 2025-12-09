@@ -1,7 +1,7 @@
 name: Build and Test
 permissions: read-all
 env:
-  LLVM_COMMIT: "cd5fcea6"
+  LLVM_COMMIT: "896749aa"
   LLVM_INSTALL_PATH: "${{ github.workspace }}/llvm-install"
   CI: "true"
 on:
